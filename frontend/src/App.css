@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.line {
+    outline: 1px solid #000;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#root {
+    display: flex;
+}
+
+@media screen and (max-width: 450px) {
+    html {
+        font-size: 60%;
+    }
+}
