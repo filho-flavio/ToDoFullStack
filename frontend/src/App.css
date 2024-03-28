@@ -13,6 +13,10 @@
     cursor: pointer;
 }
 
+.grab {
+    cursor: grab;
+}
+
 #root {
     display: flex;
 }

@@ -42,7 +42,7 @@ const Sidebar = () => {
             </span>
           </Link>
           <Link
-            to={"/board-tasks"}
+            to={"/all-tasks"}
             className="sidebar-link board"
             onClick={() => handleSelected(".board")}
           >

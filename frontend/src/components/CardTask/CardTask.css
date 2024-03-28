@@ -1,0 +1,24 @@
+.container-task {
+    display: flex;
+    width: 15.5rem;
+    min-height: 4rem;
+    background-color: #eeeeee;
+    border-radius: 0.8rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin-top: 1rem;
+    padding: 0.5rem;
+}
+
+.content-task {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 0.4rem;
+}
+
+.task-user-img {
+    align-self: flex-start;
+    width: 15%;
+    height: 100%;
+}

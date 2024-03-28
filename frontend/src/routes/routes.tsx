@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Register from "../pages/Register/Register";
 import Home from "../pages/Home/Home";
-import BoardTasks from "../pages/BoardTasks/BoardTasks";
+import AllTasks from "../pages/AllTasks/AllTasks";
 import { useAuth } from "../hooks/useAuth";
 import Sidebar from "../components/Sidebar/Sidebar";
 
@@ -31,8 +31,7 @@ const RoutesApp: React.FC = () => {
                 <Sidebar />
                 <Routes>
                   <Route path="/home" element={<Home />} />
-                  <Route path="/board-tasks" element={<BoardTasks />} />
-                  <Route path="/tasks" element={<Home />} />
+                  <Route path="/all-tasks" element={<AllTasks />} />
                   <Route path="/members" element={<Home />} />
                 </Routes>
               </>
