@@ -70,21 +70,19 @@ const ListColumn: React.FC<Props> = ({ listTitle, qtdTasks }) => {
         </div>
 
         <div className="tasks-list">
-          <CardTask textTask="Finish to do list" userImg={userImg} />
           <CardTask
-            textTask="Finish to do list oicnoinwoiwnofinwofiwnof ofnewiof ofienjfoe oifnejofei oifneofie oifneofe ofenio ofienfeoi ofienfoe "
+            textTask="Implement the way to add list columns and save in the DB"
             userImg={userImg}
           />
           <CardTask
-            textTask="Lorem ipsum dolor oeinfe oifneof"
+            textTask="A card must have an id bound to their list"
             userImg={userImg}
           />
-          <CardTask textTask="Finish to do list" userImg={userImg} />
-          <CardTask textTask="Finish to do list" userImg={userImg} />
-          <CardTask textTask="Finish to do list" userImg={userImg} />
-          <CardTask textTask="Finish to do list" userImg={userImg} />
-          <CardTask textTask="Finish to do list" userImg={userImg} />
-          <CardTask textTask="Finish to do list" userImg={userImg} />
+          <CardTask
+            textTask="Should I get the name from the list and check all the tasks corresponding to it one by one"
+            userImg={userImg}
+          />
+
           {cardTask.map((item) => (
             <CardTask textTask={item.text} userImg={item.userImg} />
           ))}

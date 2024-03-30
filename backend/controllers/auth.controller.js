@@ -71,7 +71,7 @@ export const singUp = (req, res) => {
     const userSaved = db.query(query, [values]);
 
     if (userSaved) {
-      return res.send(201).json("User  Created Successfully!");
+      return res.send(201).json("User Created Successfully!");
     }
   } catch (err) {
     console.log(`Error in singup: ${err}`);

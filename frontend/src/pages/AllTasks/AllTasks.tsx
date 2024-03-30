@@ -2,13 +2,50 @@ import ListColumn from "../../components/ListColumn/ListColumn";
 import imgChangeColor from "../../assets/color-picker.png";
 import { IoClose } from "react-icons/io5";
 import "./AllTasks.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const AllTasks = () => {
   const [isModalChangeColorOpen, setIsModalChangeColorOpen] =
     useState<boolean>(false);
-  const [currentColor, setCurrentColor] = useState<string>("");
+  const [currentColor, setCurrentColor] = useState<string>(".color-white");
   const [isAddingList, setIsAddingList] = useState<boolean>(false);
+  const [arrListColumns, setArrListColumns] = useState([
+    {
+      id: 1,
+      titleList: "To do",
+      qtd_tasks: 3,
+    },
+    {
+      id: 2,
+      titleList: "Doing",
+      qtd_tasks: 5,
+    },
+    {
+      id: 3,
+      titleList: "In Review",
+      qtd_tasks: 2,
+    },
+    {
+      id: 4,
+      titleList: "Finished",
+      qtd_tasks: 10,
+    },
+    {
+      id: 5,
+      titleList: "Next week",
+      qtd_tasks: 6,
+    },
+    {
+      id: 6,
+      titleList: "Next month",
+      qtd_tasks: 15,
+    },
+  ]);
+  const refTitleList = useRef("");
+
+  useEffect(() => {
+    selectColor(currentColor);
+  }, [isModalChangeColorOpen]);
 
   const handleOpenModalChangeColor = () => {
     setIsModalChangeColorOpen(!isModalChangeColorOpen);
@@ -60,13 +97,18 @@ const AllTasks = () => {
     setIsAddingList(!isAddingList);
   };
 
-  const handleSaveList = (e) => {
-    const titleList = e.target.value;
+  const handleSaveList = () => {
+    const listTitle = refTitleList.current.value.trim();
 
-    if(titleList !== ""){
-      
+    if (listTitle !== "") {
+      setArrListColumns((prevState) => [
+        ...prevState,
+        { id: prevState.length + 1, titleList: listTitle, qtd_tasks: 0 },
+      ]);
+
+      setIsAddingList(!isAddingList);
     }
-  }
+  };
 
   return (
     <>
@@ -99,22 +141,34 @@ const AllTasks = () => {
 
           <div className="wrap-board-tasks">
             <div className="board-tasks">
-              <ListColumn listTitle="To Do" qtdTasks={3} />
-              <ListColumn listTitle="Doing" qtdTasks={7} />
-              <ListColumn listTitle="In Review" qtdTasks={5} />
-              <ListColumn listTitle="Doing" qtdTasks={7} />
-              <ListColumn listTitle="Doing" qtdTasks={7} />
-              <ListColumn listTitle="Doing" qtdTasks={7} />
+              {arrListColumns.map((item) => (
+                <ListColumn
+                  listTitle={item.titleList}
+                  qtdTasks={item.qtd_tasks}
+                  key={item.id}
+                />
+              ))}
             </div>
             {isAddingList && (
               <div className="modal-add-list">
                 <input
+                  ref={refTitleList}
                   type="text"
                   className="in-add-list"
                   placeholder="Enter list title..."
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSaveList;
+                    }
+                  }}
                 />
                 <div className="modal-save-close-list">
-                  <button className="btn-save-list pointer" onClick={handleSaveList}>Save</button>
+                  <button
+                    className="btn-save-list pointer"
+                    onClick={handleSaveList}
+                  >
+                    Save list
+                  </button>
                   <IoClose
                     className="btn-close-modal pointer"
                     onClick={handleOpenAddList}

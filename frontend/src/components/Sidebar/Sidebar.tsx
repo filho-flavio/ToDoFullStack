@@ -5,8 +5,11 @@ import imgUser from "../../assets/user.png";
 import imgBoardTasks from "../../assets/board.png";
 import imgTeam from "../../assets/team.png";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const Sidebar = () => {
+  const { user } = useAuth();
+
   const handleSelected = (item: string) => {
     const oldItem = document.querySelector(".selected");
 
@@ -65,8 +68,8 @@ const Sidebar = () => {
         <div className="sidebar-user-info">
           <img src={imgUser} alt="" />
           <span>
-            <p className="sidebar-full-name">Jhon Doe</p>
-            <p className="sidebar-username">jhon_02</p>
+            <p className="sidebar-full-name">{user.fullName}</p>
+            <p className="sidebar-username">{user.username}</p>
           </span>
         </div>
       </div>
