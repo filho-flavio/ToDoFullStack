@@ -1,6 +1,6 @@
 import express from "express";
-import protectRoute from "../middleware/protectRoute";
-import { createListColumn, createTask, getAllLists, getAllTasks } from "../controllers/tasks.controller";
+import protectRoute from "../middleware/protectRoute.js";
+import { createList, createTask, getAllLists, getAllTasks } from "../controllers/tasks.controller.js";
 
 const router = express.Router();
 
@@ -10,4 +10,6 @@ router.post("/tasks", protectRoute, createTask);
 
 router.get("./lists", protectRoute, getAllLists)
 
-router.post("/lists", protectRoute, createListColumn);
+router.post("/create-list", createList);
+
+export default router;

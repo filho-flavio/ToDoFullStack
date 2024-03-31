@@ -15,7 +15,7 @@ interface Props {
 // alguma coisa está gatilhando uma renderização e o signed volta para false 
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("null");
 
   // verificar se o usuário existe no bd
   const signIn = async (userObj: User) => {

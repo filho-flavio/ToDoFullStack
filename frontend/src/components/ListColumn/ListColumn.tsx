@@ -13,9 +13,7 @@ interface Props {
 const ListColumn: React.FC<Props> = ({ listTitle, qtdTasks }) => {
   const [isOpenAddCard, setIsOpenAddCard] = useState<boolean>(false);
   const refText = useRef<HTMLInputElement>(null);
-  const refTitle = useRef<HTMLInputElement>(null);
   const [cardTask, setCardTask] = useState([]);
-  const [isChangingTitle, setIsChangingTitle] = useState<boolean>(false);
 
   const handleOpenAddCard = () => {
     setIsOpenAddCard(!isOpenAddCard);
@@ -33,37 +31,12 @@ const ListColumn: React.FC<Props> = ({ listTitle, qtdTasks }) => {
     }
   };
 
-  const handleChangeTitle = () => {
-    refTitle.current.value = listTitle;
-  };
-
-  const handleChangeTitleList = () => {
-    setIsChangingTitle(!isChangingTitle);
-  };
-
   return (
     <>
       <div className="tasks-column" key={listTitle} id={listTitle}>
         <div className="title-wrap">
           <span className="title-content">
-            {isChangingTitle ? (
-              <input
-                value={listTitle}
-                className="changing-title-list"
-                onChange={(e) => handleChangeTitle}
-                ref={refTitle}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") setIsChangingTitle(!isChangingTitle);
-                }}
-              />
-            ) : (
-              <h3
-                className="title-tasks-columns "
-                onDoubleClick={handleChangeTitleList}
-              >
-                {listTitle}
-              </h3>
-            )}
+            <h3 className="title-tasks-columns ">{listTitle}</h3>
             <p className="qtd-tasks">{qtdTasks}</p>
           </span>
           <BsThreeDots className="menu-column grab" />

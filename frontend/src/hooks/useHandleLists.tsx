@@ -1,13 +1,13 @@
-import { useState } from "react";
 import axios from "axios";
 
-interface Props {
-  data: object;
+interface ListTasks {
+  listTitle: string;
+  qtd_tasks: number;
 }
 
 export const useGetLists = async () => {
   try {
-    const response = await axios.get("/api/lists");
+    const response = await axios.get("http://localhost:3000/api/lists/");
 
     return response.data;
   } catch (error) {
@@ -15,21 +15,11 @@ export const useGetLists = async () => {
   }
 };
 
-export const useCreateList = ({ data }: Props) => {
-  const [responseData, setResponseData] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const createList = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/listcolumn",
-        data
-      );
-      setResponseData(response.data);
-    } catch (error) {
-      setError(`Error in useCreateList: ${error}`);
-    }
-  };
-
-  return { createList, responseData, error };
+export const useCreateList = async ( data: ListTasks) => {
+  try {
+    const response = await axios.post("http://localhost:3000/api/lists/create-list", data);
+    return response.data;
+  } catch (error) {
+    alert(`Error in useCreateList: ${error}`);
+  }
 };

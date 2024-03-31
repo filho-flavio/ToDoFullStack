@@ -1,10 +1,11 @@
-import { db } from "../db/connection";
+import { db } from "../db/connection.js";
 
 export const createTask = (req, res) => {
   try {
     const { text, data_abertura, schedule, user_owner } = req.body;
 
-    const query = "INSERT INTO tasks (`text`, `data_abertura`, `schedule`, `user_owner`, `assigned_to`) VALUES(?)";
+    const query =
+      "INSERT INTO tasks (`text`, `data_abertura`, `schedule`, `user_owner`, `assigned_to`) VALUES(?)";
 
     const values = [text, data_abertura, schedule, user_owner];
 
@@ -34,22 +35,23 @@ export const getAllTasks = (_, res) => {
   }
 };
 
-export const createListColumn = (req, res) => {
+export const createList = (req, res) => {
   try {
-    const { titleList, qtd_tasks } = req.body;
+    console.log(req.body);
+    // const { listTitle, qtd_tasks } = req.body;
 
-    const query = "INSERT INTO users (`titleList`, `qtd_tasks`) VALUES(?)";
+    // const query = "INSERT INTO tasks_list (`list_title`, `qtd_tasks`) VALUES(?)";
 
-    const values = [titleList, qtd_tasks];
+    // const values = [listTitle, qtd_tasks];
 
-    const createdList = db.query(query, [values]);
+    // const createdList = db.query(query, [values]);
 
-    if (createdList) {
-      res.status(200).send("List created sucessfully!");
-    }
+    // if (createdList) {
+    //   res.status(200).send("List created sucessfully!");
+    // }
   } catch (error) {
     console.log(`Error in create list controller: ${error}`);
-    res.status(500).send(`Error in create list: ${error}`);
+    res.status(500).send(`Internal server error.`);
   }
 };
 

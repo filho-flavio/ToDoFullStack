@@ -3,12 +3,24 @@ import imgChangeColor from "../../assets/color-picker.png";
 import { IoClose } from "react-icons/io5";
 import "./AllTasks.css";
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useCreateList, useGetLists } from "../../hooks/useHandleLists";
+
+interface ListTasks {
+  listTitle: string;
+  qtd_tasks: number;
+}
 
 const AllTasks = () => {
+  const { user } = useAuth();
   const [isModalChangeColorOpen, setIsModalChangeColorOpen] =
     useState<boolean>(false);
-  const [currentColor, setCurrentColor] = useState<string>(".color-white");
+  const [currentColor, setCurrentColor] = useState(".color-blue");
   const [isAddingList, setIsAddingList] = useState<boolean>(false);
+  const [listToCreate, setListToCreate] = useState<ListTasks>({
+    listTitle: "",
+    qtd_tasks: 0,
+  });
   const [arrListColumns, setArrListColumns] = useState([
     {
       id: 1,
@@ -42,6 +54,15 @@ const AllTasks = () => {
     },
   ]);
   const refTitleList = useRef("");
+  console.log("Here is the color: " + currentColor);
+
+  useEffect(() => {
+    const background = document.querySelector(
+      ".board-tasks-container"
+    ) as HTMLElement;
+
+    background.style.backgroundColor = "#3d61a2";
+  }, []);
 
   useEffect(() => {
     selectColor(currentColor);
@@ -97,6 +118,10 @@ const AllTasks = () => {
     setIsAddingList(!isAddingList);
   };
 
+  useEffect(() => {
+    useGetLists();
+  }, [listToCreate])
+
   const handleSaveList = () => {
     const listTitle = refTitleList.current.value.trim();
 
@@ -105,6 +130,10 @@ const AllTasks = () => {
         ...prevState,
         { id: prevState.length + 1, titleList: listTitle, qtd_tasks: 0 },
       ]);
+
+      setListToCreate({ listTitle: listTitle, qtd_tasks: 0 });
+
+      useCreateList(listToCreate);
 
       setIsAddingList(!isAddingList);
     }

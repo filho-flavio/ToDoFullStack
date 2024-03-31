@@ -33,6 +33,7 @@ export const signIn = (req, res) => {
         username: userVerified.username,
         fullName: userVerified.fullName,
         userProfilePic: userVerified.profilePic,
+        backgroundColor: userVerified.backgroundColor,
       });
     });
   } catch (err) {

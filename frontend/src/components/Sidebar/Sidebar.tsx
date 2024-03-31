@@ -7,6 +7,7 @@ import imgTeam from "../../assets/team.png";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
+
 const Sidebar = () => {
   const { user } = useAuth();
 
@@ -24,6 +25,8 @@ const Sidebar = () => {
     } else {
       document.querySelector(".home")?.classList.add("selected");
     }
+
+
   };
 
   return (
