@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import routerUser from "./routes/user.routes.js";
-import routerTasks from "./routes/tasks.routes.js"
+import routerTasks from "./routes/tasks.routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -18,7 +18,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/api/auth", routerUser);
-app.use("/api/lists", routerTasks)
+app.use("/api/tasks-lists", routerTasks);
 
 app.get("/signin", (req, res) => {
   res.send("Hello world!");

@@ -1,8 +1,20 @@
 import axios from "axios";
 
-export const useGetTasks = async () => {
+interface GetTasks {
+  listId: string;
+}
+
+interface Tasks {
+  textTask: string;
+  listId: string;
+}
+
+export const useGetTasks = async (data: GetTasks) => {
   try {
-    const response = await axios.get("/api/tasks");
+    const response = await axios.post(
+      "http://localhost:3000/api/tasks-lists/get-tasks",
+      data
+    );
     return response.data;
   } catch (error) {
     alert(`Error to get all tasks: ${error}`);
@@ -10,18 +22,20 @@ export const useGetTasks = async () => {
   }
 };
 
-export const useCreateTask = async () => {
+export const useCreateTask = async (data: Tasks) => {
   try {
-    
-  } catch(error) {
+    const response = await axios.post(
+      "http://localhost:3000/api/tasks-lists/create-task",
+      data
+    );
 
+    alert("Task created");
+    return response.data;
+  } catch (error) {
+    alert(`Error in useCreateTask: ${error}`);
   }
-}
+};
 
-export const useUpdateTask = async () => {
+export const useUpdateTask = async () => {};
 
-} 
-
-export const useDeleteTask = async () => {
-
-}
+export const useDeleteTask = async () => {};

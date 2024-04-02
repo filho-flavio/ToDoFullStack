@@ -1,14 +1,19 @@
 import express from "express";
 import protectRoute from "../middleware/protectRoute.js";
-import { createList, createTask, getAllLists, getAllTasks } from "../controllers/tasks.controller.js";
+import {
+  createList,
+  createTask,
+  getAllLists,
+  getAllTasks,
+} from "../controllers/tasks.controller.js";
 
 const router = express.Router();
 
-router.get("/tasks", protectRoute, getAllTasks)
+router.post("/get-tasks", getAllTasks);
 
-router.post("/tasks", protectRoute, createTask);
+router.post("/create-task", createTask);
 
-router.get("./lists", protectRoute, getAllLists)
+router.get("/get-lists", getAllLists);
 
 router.post("/create-list", createList);
 

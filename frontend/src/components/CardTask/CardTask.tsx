@@ -4,12 +4,13 @@ import { FaCalendarAlt } from "react-icons/fa";
 interface CardTasksProp {
   textTask: string;
   userImg: string;
+  listId: number;
 }
 
-const CardTask: React.FC<CardTasksProp> = ({ textTask, userImg }) => {
+const CardTask: React.FC<CardTasksProp> = ({ textTask, userImg, listId }) => {
   return (
     <>
-      <div className="container-task grab">
+      <div className="container-task grab" key={listId}>
 
         <div className="content-task">
           <p>{textTask}</p>

@@ -15,58 +15,27 @@ const AllTasks = () => {
   const { user } = useAuth();
   const [isModalChangeColorOpen, setIsModalChangeColorOpen] =
     useState<boolean>(false);
-  const [currentColor, setCurrentColor] = useState(".color-blue");
+  const [currentColor, setCurrentColor] = useState(".color-white");
   const [isAddingList, setIsAddingList] = useState<boolean>(false);
   const [listToCreate, setListToCreate] = useState<ListTasks>({
     listTitle: "",
     qtd_tasks: 0,
   });
-  const [arrListColumns, setArrListColumns] = useState([
-    {
-      id: 1,
-      titleList: "To do",
-      qtd_tasks: 3,
-    },
-    {
-      id: 2,
-      titleList: "Doing",
-      qtd_tasks: 5,
-    },
-    {
-      id: 3,
-      titleList: "In Review",
-      qtd_tasks: 2,
-    },
-    {
-      id: 4,
-      titleList: "Finished",
-      qtd_tasks: 10,
-    },
-    {
-      id: 5,
-      titleList: "Next week",
-      qtd_tasks: 6,
-    },
-    {
-      id: 6,
-      titleList: "Next month",
-      qtd_tasks: 15,
-    },
-  ]);
+  const [arrListColumns, setArrListColumns] = useState([]);
   const refTitleList = useRef("");
-  console.log("Here is the color: " + currentColor);
-
-  useEffect(() => {
-    const background = document.querySelector(
-      ".board-tasks-container"
-    ) as HTMLElement;
-
-    background.style.backgroundColor = "#3d61a2";
-  }, []);
 
   useEffect(() => {
     selectColor(currentColor);
   }, [isModalChangeColorOpen]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const arrList = await useGetLists();
+      setArrListColumns(arrList);
+    };
+
+    fetchData();
+  }, []);
 
   const handleOpenModalChangeColor = () => {
     setIsModalChangeColorOpen(!isModalChangeColorOpen);
@@ -120,7 +89,7 @@ const AllTasks = () => {
 
   useEffect(() => {
     useGetLists();
-  }, [listToCreate])
+  }, [listToCreate]);
 
   const handleSaveList = () => {
     const listTitle = refTitleList.current.value.trim();
@@ -172,9 +141,10 @@ const AllTasks = () => {
             <div className="board-tasks">
               {arrListColumns.map((item) => (
                 <ListColumn
-                  listTitle={item.titleList}
+                  listTitle={item.list_title}
                   qtdTasks={item.qtd_tasks}
-                  key={item.id}
+                  key={item.list_id}
+                  listId={item.list_id}
                 />
               ))}
             </div>

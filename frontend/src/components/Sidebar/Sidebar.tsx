@@ -57,16 +57,6 @@ const Sidebar = () => {
               All Tasks
             </span>
           </Link>
-          <Link
-            to={"/members"}
-            className="sidebar-link members"
-            onClick={() => handleSelected(".members")}
-          >
-            <span className="sidebar-wrap-link">
-              <img src={imgTeam} alt="" />
-              Members
-            </span>
-          </Link>
         </nav>
         <div className="sidebar-user-info">
           <img src={imgUser} alt="" />

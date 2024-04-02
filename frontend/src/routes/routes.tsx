@@ -32,7 +32,6 @@ const RoutesApp: React.FC = () => {
                 <Routes>
                   <Route path="/home" element={<Home />} />
                   <Route path="/all-tasks" element={<AllTasks />} />
-                  <Route path="/members" element={<Home />} />
                 </Routes>
               </>
             }

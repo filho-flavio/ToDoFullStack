@@ -2,12 +2,11 @@ import { db } from "../db/connection.js";
 
 export const createTask = (req, res) => {
   try {
-    const { text, data_abertura, schedule, user_owner } = req.body;
+    const { textTask, listId } = req.body;
 
-    const query =
-      "INSERT INTO tasks (`text`, `data_abertura`, `schedule`, `user_owner`, `assigned_to`) VALUES(?)";
+    const query = "INSERT INTO tasks (`text`,  `list_id`) VALUES(?)";
 
-    const values = [text, data_abertura, schedule, user_owner];
+    const values = [textTask, listId];
 
     const createdTask = db.query(query, [values]);
 
@@ -20,27 +19,30 @@ export const createTask = (req, res) => {
   }
 };
 
-export const getAllTasks = (_, res) => {
-  try {
-    const query = "SELECT * FROM tasks";
+export const getAllTasks = (req, res) => {
+  const { listId } = req.body;
 
-    const allTasks = db.query(query);
+  const query = "SELECT * FROM tasks WHERE list_id = ?";
 
-    if (allTasks) {
-      res.status(200).send("All tasks was send sucessfully!");
+  db.query(query, [listId], (error, data) => {
+    if (error) {
+      console.log(`Error in get all list controller: ${error}`);
+      return res
+        .status(500)
+        .json({ error: `Error in get all tasks controller: ${error}` });
     }
-  } catch (error) {
-    console.log(`Error in get all tasks controller: ${error}`);
-    res.status(500).send(`Error in get all tasks: ${error}`);
-  }
+
+    return res.status(200).json(data);
+  });
 };
 
 export const createList = (req, res) => {
   try {
-    console.log(req.body);
-    // const { listTitle, qtd_tasks } = req.body;
+    const { listTitle, qtd_tasks } = req.body;
+    console.log("Here is the title: " + listTitle, qtd_tasks);
 
-    // const query = "INSERT INTO tasks_list (`list_title`, `qtd_tasks`) VALUES(?)";
+    const query =
+      "INSERT INTO tasks_list (`list_title`, `qtd_tasks`) VALUES(?, ?)";
 
     // const values = [listTitle, qtd_tasks];
 
@@ -57,9 +59,18 @@ export const createList = (req, res) => {
 
 // this function must do a query that does a distinct query and returns all the list names
 export const getAllLists = (_, res) => {
-  try {
-  } catch (error) {
-    console.log(`Error in get all list controller: ${error}`);
-    res.status(500).send(`Error in create list: ${error}`);
-  }
+  const query = "SELECT * FROM tasks_list";
+
+  db.query(query, (error, data) => {
+    if (error) {
+      console.log(`Error in get all list controller: ${error}`);
+      res
+        .status(500)
+        .json({ error: `Error in get all list controller: ${error}` });
+    }
+
+    console.log(data);
+
+    res.status(200).json(data);
+  });
 };
