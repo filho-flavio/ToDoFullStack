@@ -11,11 +11,11 @@ import { useAuth } from "../hooks/useAuth";
 import Sidebar from "../components/Sidebar/Sidebar";
 
 interface AuthState {
-  signed: boolean;
+  user: object;
 }
 
 const RoutesApp: React.FC = () => {
-  const { signed } = useAuth() as AuthState;
+  const { user } = useAuth() as AuthState;
 
   return (
     <Router>
@@ -23,7 +23,7 @@ const RoutesApp: React.FC = () => {
         <Route path="/" element={<Register />} />
 
         {/* Rotas protegidas */}
-        {signed && (
+        {user && (
           <Route
             path="/*"
             element={
@@ -37,7 +37,7 @@ const RoutesApp: React.FC = () => {
             }
           />
         )}
-        {!signed && <Route path="/*" element={<Navigate to="/" />} />}
+        {!user && <Route path="/*" element={<Navigate to="/" />} />}
       </Routes>
     </Router>
   );

@@ -6,12 +6,10 @@ import Signup from "../../components/Signup/Signup";
 
 const Register = () => {
   const [signUp, setSignUp] = useState(false);
-
   return (
     <>
       <div className="container-register">
         <div id="change" className="content-register">
-
           <div className="container-form sign-in">
             <Signin />
           </div>
@@ -23,7 +21,6 @@ const Register = () => {
           <div className="container-toggle">
             <InfoRegister signUp={signUp} setSignUp={setSignUp} />
           </div>
-
         </div>
       </div>
     </>

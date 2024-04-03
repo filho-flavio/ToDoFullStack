@@ -39,6 +39,7 @@ export const getAllTasks = (req, res) => {
 export const createList = (req, res) => {
   try {
     const { listTitle, qtd_tasks } = req.body;
+    
     console.log("Here is the title: " + listTitle, qtd_tasks);
 
     const query =

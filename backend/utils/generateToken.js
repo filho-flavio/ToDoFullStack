@@ -14,13 +14,12 @@ const generateToken = (userId, res) => {
 
   // sending token in a cookie
   res.cookie("jwt", token, {
-    maxAge: 36000000,
+    maxAge: 10800000, // 3hours
     httpOnly: true,
-    secure: true,
     sameSite: "strict",
   });
 
-  return token;
+  return;
 };
 
 export default generateToken;

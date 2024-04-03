@@ -5,6 +5,7 @@ import "./AllTasks.css";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useCreateList, useGetLists } from "../../hooks/useHandleLists";
+import { handleChangeColor } from "../../hooks/useChangeColor";
 
 interface ListTasks {
   listTitle: string;
@@ -29,6 +30,31 @@ const AllTasks = () => {
   }, [isModalChangeColorOpen]);
 
   useEffect(() => {
+    setCurrentColor(user.backgroundColor);
+
+    const background = document.querySelector(
+      ".board-tasks-container"
+    ) as HTMLElement;
+
+    if (currentColor === ".color-white") {
+      background.style.backgroundColor = "#fff";
+      selectColor(".color-white");
+    } else if (currentColor === ".color-gray") {
+      background.style.backgroundColor = "#939393";
+      selectColor(".color-gray");
+    } else if (currentColor === ".color-blue") {
+      background.style.backgroundColor = "#3d61a2";
+      selectColor(".color-blue");
+    } else if (currentColor === ".color-green") {
+      background.style.backgroundColor = "#55a23d";
+      selectColor(".color-green");
+    } else if (currentColor === ".color-yellow") {
+      background.style.backgroundColor = "#a29b3d";
+      selectColor(".color-yellow");
+    }
+  }, [arrListColumns]);
+
+  useEffect(() => {
     const fetchData = async () => {
       const arrList = await useGetLists();
       setArrListColumns(arrList);
@@ -45,40 +71,38 @@ const AllTasks = () => {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     const colorTarget = event.target.classList;
-
     const background = document.querySelector(
       ".board-tasks-container"
     ) as HTMLElement;
-
-    if (colorTarget.contains("color-white")) {
-      background.style.backgroundColor = "#fff";
-      selectColor(".color-white");
-    } else if (colorTarget.contains("color-gray")) {
-      background.style.backgroundColor = "#939393";
-      selectColor(".color-gray");
-    } else if (colorTarget.contains("color-blue")) {
-      background.style.backgroundColor = "#3d61a2";
-      selectColor(".color-blue");
-    } else if (colorTarget.contains("color-green")) {
-      background.style.backgroundColor = "#55a23d";
-      selectColor(".color-green");
-    } else if (colorTarget.contains("color-yellow")) {
-      background.style.backgroundColor = "#a29b3d";
-      selectColor(".color-yellow");
+  
+    const colorMap: { [key: string]: string } = {
+      "color-white": "#fff",
+      "color-gray": "#939393",
+      "color-blue": "#3d61a2",
+      "color-green": "#55a23d",
+      "color-yellow": "#a29b3d",
+    };
+  
+    const className = Array.from(colorTarget).find((cls) => colorMap[cls]);
+  
+    if (className) {
+      background.style.backgroundColor = colorMap[className];
+      selectColor("." + className);
     }
   };
+  
 
-  const selectColor = (className) => {
-    const currentColor = document.querySelector(".current-color");
+  const selectColor = (className: string) => {
+    const currentColorElem = document.querySelector(".current-color");
 
-    if (currentColor) {
-      currentColor.classList.remove("current-color");
+    if (currentColorElem) {
+      currentColorElem.classList.remove("current-color");
     }
 
-    const newColor = document.querySelector(className);
+    const newColorElem = document.querySelector(className);
 
-    if (newColor) {
-      newColor.classList.add("current-color");
+    if (newColorElem) {
+      newColorElem.classList.add("current-color");
       setCurrentColor(className);
     }
   };

@@ -6,8 +6,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { db } from "./db/connection.js";
-import jwt from "jsonwebtoken";
-import generateToken from "./utils/generateToken.js";
 
 dotenv.config();
 
@@ -19,10 +17,6 @@ app.use(cookieParser());
 
 app.use("/api/auth", routerUser);
 app.use("/api/tasks-lists", routerTasks);
-
-app.get("/signin", (req, res) => {
-  res.send("Hello world!");
-});
 
 const PORT = process.env.PORT || 5000;
 
@@ -36,8 +30,4 @@ app.listen(PORT, () => {
       console.log("You were connected to database.");
     }
   });
-
-  // const tokenGenerated = generateToken("18251");
-  // console.log(tokenGenerated);
-  // console.log(jwt.decode(tokenGenerated));
 });

@@ -28,8 +28,6 @@ export const useCreateTask = async (data: Tasks) => {
       "http://localhost:3000/api/tasks-lists/create-task",
       data
     );
-
-    alert("Task created");
     return response.data;
   } catch (error) {
     alert(`Error in useCreateTask: ${error}`);

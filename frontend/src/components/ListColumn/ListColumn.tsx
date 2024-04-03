@@ -5,6 +5,7 @@ import { IoClose } from "react-icons/io5";
 import userImg from "../../assets/user.png";
 import { useEffect, useRef, useState } from "react";
 import { useCreateTask, useGetTasks } from "../../hooks/useHandleTasks";
+import { RiDraggable } from "react-icons/ri";
 
 interface Props {
   listTitle: string;
@@ -61,7 +62,7 @@ const ListColumn: React.FC<Props> = ({ listTitle, qtdTasks, listId }) => {
             <h3 className="title-tasks-columns ">{listTitle}</h3>
             <p className="qtd-tasks">{qtdTasks}</p>
           </span>
-          <BsThreeDots className="menu-column grab" />
+          <RiDraggable className="menu-column grab" />
         </div>
 
         <div className="tasks-list">

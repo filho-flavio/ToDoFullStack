@@ -16,14 +16,14 @@ export const signIn = (req, res) => {
         return res.status(500).send("Internal Server Error");
       }
 
-      const userVerified = result[0]; // Obtenha o primeiro resultado da consulta
+      const userVerified = result[0]; // Obtem o primeiro resultado da consulta
 
       if (!userVerified) {
         return res.status(401).json({ message: "Invalid user or password." });
       }
 
       if (userVerified.password !== password) {
-        return res.status(401).json({ message: "Invalid user or password." });
+        return res.status(401).json({ message: "Invalid password." });
       }
 
       generateToken(userVerified.id, res);
