@@ -13,7 +13,7 @@ router.post("/get-tasks", getAllTasks);
 
 router.post("/create-task", createTask);
 
-router.get("/get-lists", getAllLists);
+router.post("/get-lists", getAllLists);
 
 router.post("/create-list", createList);
 

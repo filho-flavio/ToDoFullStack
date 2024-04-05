@@ -1,6 +1,7 @@
 import "./Signup.css";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Signup: React.FC = () => {
   const [message, setMessage] = useState("");
@@ -9,13 +10,19 @@ const Signup: React.FC = () => {
     username: "",
     password: "",
   });
-  const { singUp } = useAuth();
+  const { signUp } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
 
     if (validateForm()) {
-      singUp(formData);
+      const res = signUp(formData);
+
+      if(res) {
+        navigate("/home")
+      }
     } else {
       setMessage("Fill all fields!")
     }

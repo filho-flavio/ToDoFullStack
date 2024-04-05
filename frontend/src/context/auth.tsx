@@ -8,6 +8,12 @@ interface User {
   password: string;
 }
 
+interface UserSignUp {
+  fullName: string;
+  username: string;
+  password: string;
+}
+
 interface Props {
   children: React.ReactNode;
 }
@@ -35,9 +41,10 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
-  const signUp = async (userObj: { type: object }) => {
+  const signUp = async (userObj: UserSignUp) => {
     try {
-      const response = await axios.post("http://localhost:3000", userObj);
+      const response = await axios.post("http://localhost:3000/api/auth/signup", userObj);
+      alert(response.data.message)
       return response.data;
     } catch (error) {
       return alert(`Error in signup: ${error}`);
@@ -46,17 +53,18 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const signOut = () => {
     try {
+      const response = axios.post("http://localhost:3000/api/auth/signout");
+
       setUser(null);
-      localStorage.setItem("todo-user", "");
+      localStorage.removeItem("todo-user");
+      return response;
     } catch (error) {
       return alert(`Error in signout: ${error}`);
     }
   };
 
   return (
-    <AuthContext.Provider
-      value={{ signIn, signUp, signOut, user, setUser }}
-    >
+    <AuthContext.Provider value={{ signIn, signUp, signOut, user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

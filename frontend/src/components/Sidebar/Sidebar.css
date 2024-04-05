@@ -120,14 +120,14 @@ a {
 .btn-signout {
     height: 60%;
     width: 70%;
-    border-radius: 1rem;
+    border-radius: 0.8rem;
     font-size: 1rem;
     outline: none;
     border: none;
-    background-color: #6e9ddf;
+    background-color: #df6e6e;
     font-weight: bold;
 }
 
 .btn-signout:active {
-    background-color: #7e99cb;
+    background-color: #cb7e7e;
 }

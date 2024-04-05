@@ -2,11 +2,13 @@ import axios from "axios";
 
 interface GetTasks {
   listId: string;
+  user_owner: string;
 }
 
 interface Tasks {
   textTask: string;
   listId: string;
+  user_owner: string;
 }
 
 export const useGetTasks = async (data: GetTasks) => {

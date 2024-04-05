@@ -4,7 +4,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import imgWelcome from "../../assets/emoji-happy.png";
 import imgUser from "../../assets/user.png";
 import imgBoardTasks from "../../assets/board.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 
@@ -14,6 +14,7 @@ const Sidebar = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(
     selectedItem
   );
+  const navigate = useNavigate();
 
   const saveOption = (item: string) => {
     localStorage.setItem("todo-sidebar", item);
@@ -25,7 +26,6 @@ const Sidebar = () => {
       handleSelected(selectedOption);
     }
   }, []);
-  
 
   const handleSelected = (item: string) => {
     const oldItem = document.querySelector(".selected");
@@ -45,10 +45,17 @@ const Sidebar = () => {
     }
   };
 
-  const handleSignout = () =>{
-    document.querySelector(".sidebar-btn-signout")?.classList.toggle("signout-opened");
-    document.querySelector(".sidebar-signout")?.classList.toggle("active")
-  }
+  const handleSignout = () => {
+    document
+      .querySelector(".sidebar-btn-signout")
+      ?.classList.toggle("signout-opened");
+    document.querySelector(".sidebar-signout")?.classList.toggle("active");
+  };
+
+  const handleSigningout = () => {
+    signOut();
+    navigate("/");
+  };
 
   return (
     <>
@@ -85,10 +92,13 @@ const Sidebar = () => {
             <p className="sidebar-full-name">{user.fullName}</p>
             <p className="sidebar-username">{user.username}</p>
           </span>
-          <IoMdArrowDropdown className="sidebar-btn-signout pointer" onClick={handleSignout}  />
+          <IoMdArrowDropdown
+            className="sidebar-btn-signout pointer"
+            onClick={handleSignout}
+          />
         </div>
         <div className="sidebar-signout">
-          <button className="btn-signout pointer" onClick={signOut}>
+          <button className="btn-signout pointer" onClick={handleSigningout}>
             Log Out
           </button>
         </div>

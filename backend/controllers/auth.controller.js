@@ -42,40 +42,53 @@ export const signIn = (req, res) => {
   }
 };
 
-export const singUp = (req, res) => {
+export const singUp = async (req, res) => {
   try {
     const user = req.body;
 
-    const userAlreadyExist = db.query(
-      `SELECT name FROM user WHERE name = ${user.name}`
-    );
+    console.log(user);
 
-    if (userAlreadyExist)
+    // Consulta ao banco de dados para verificar se o usuário já existe
+    const userAlreadyExist = await new Promise((resolve, reject) => {
+      db.query(
+        "SELECT * FROM users WHERE username = ?",
+        [user.username],
+        (err, data) => {
+          if (err) {
+            reject(err); // Rejeita a Promise se houver um erro
+            return;
+          }
+
+          resolve(data.length > 0); // Resolve a Promise com true se o usuário existir, caso contrário, false
+        }
+      );
+    });
+
+    console.log(userAlreadyExist);
+
+    if (userAlreadyExist) {
       return res.status(400).json({ message: "User already exists." });
+    }
 
     const query =
-      "INSERT INTO users (`fullName`, `username`, `password`, `profilePic`) VALUES(?)";
+      "INSERT INTO users (`fullName`, `username`, `password`, `backgroundColor`) VALUES(?)";
 
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${user.username}`;
     const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${user.username}`;
 
     const profilePic = user.gender == "male" ? boyProfilePic : girlProfilePic;
 
-    const values = [
-      user.fullName,
-      user.username,
-      user.password,
-      user.gender,
-      profilePic,
-    ];
+    const backgroundColor = ".color-white";
+
+    const values = [user.fullName, user.username, user.password, backgroundColor];
 
     const userSaved = db.query(query, [values]);
 
     if (userSaved) {
-      return res.send(201).json("User Created Successfully!");
+      return res.status(201).json({ message: "User created successfully!" });
     }
   } catch (err) {
-    console.log(`Error in singup: ${err}`);
+    console.log(`Error in signup: ${err}`);
     res.status(500).send("Internal server error");
   }
 };

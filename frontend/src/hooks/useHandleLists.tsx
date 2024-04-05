@@ -3,12 +3,18 @@ import axios from "axios";
 interface ListTasks {
   listTitle: string;
   qtd_tasks: number;
+  user_owner: string;
 }
 
-export const useGetLists = async () => {
+interface ListUser {
+  user_owner: string;
+}
+
+export const useGetLists = async (data: ListUser) => {
   try {
-    const response = await axios.get(
-      "http://localhost:3000/api/tasks-lists/get-lists"
+    const response = await axios.post(
+      "http://localhost:3000/api/tasks-lists/get-lists",
+      data
     );
 
     return response.data;

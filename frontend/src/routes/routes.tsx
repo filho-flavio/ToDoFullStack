@@ -20,7 +20,8 @@ const RoutesApp: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Register />} />
+        {/* Rota de registro disponível apenas para usuários não autenticados */}
+        {!user && <Route path="/" element={<Register />} />}
 
         {/* Rotas protegidas */}
         {user && (
@@ -37,7 +38,9 @@ const RoutesApp: React.FC = () => {
             }
           />
         )}
-        {!user && <Route path="/*" element={<Navigate to="/" />} />}
+
+        {/* Redirecionar usuários autenticados para a página inicial */}
+        {user && <Route path="/*" element={<Navigate to="/home" />} />}
       </Routes>
     </Router>
   );

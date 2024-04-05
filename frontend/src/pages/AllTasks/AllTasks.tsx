@@ -10,6 +10,7 @@ import { handleChangeColor } from "../../hooks/useChangeColor";
 interface ListTasks {
   listTitle: string;
   qtd_tasks: number;
+  user_owner: string;
 }
 
 const AllTasks = () => {
@@ -17,10 +18,12 @@ const AllTasks = () => {
   const [isModalChangeColorOpen, setIsModalChangeColorOpen] =
     useState<boolean>(false);
   const [currentColor, setCurrentColor] = useState(".color-white");
+  const [user_owner, setuser_owner] = useState({ user_owner: user.id });
   const [isAddingList, setIsAddingList] = useState<boolean>(false);
   const [listToCreate, setListToCreate] = useState<ListTasks>({
     listTitle: "",
     qtd_tasks: 0,
+    user_owner: user.id,
   });
   const [arrListColumns, setArrListColumns] = useState([]);
   const refTitleList = useRef("");
@@ -56,12 +59,12 @@ const AllTasks = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const arrList = await useGetLists();
+      const arrList = await useGetLists(user_owner);
       setArrListColumns(arrList);
     };
 
     fetchData();
-  }, []);
+  }, [listToCreate]);
 
   const handleOpenModalChangeColor = () => {
     setIsModalChangeColorOpen(!isModalChangeColorOpen);
@@ -74,7 +77,7 @@ const AllTasks = () => {
     const background = document.querySelector(
       ".board-tasks-container"
     ) as HTMLElement;
-  
+
     const colorMap: { [key: string]: string } = {
       "color-white": "#fff",
       "color-gray": "#939393",
@@ -82,15 +85,15 @@ const AllTasks = () => {
       "color-green": "#55a23d",
       "color-yellow": "#a29b3d",
     };
-  
+
     const className = Array.from(colorTarget).find((cls) => colorMap[cls]);
-  
+
     if (className) {
       background.style.backgroundColor = colorMap[className];
       selectColor("." + className);
+      
     }
   };
-  
 
   const selectColor = (className: string) => {
     const currentColorElem = document.querySelector(".current-color");
@@ -112,7 +115,7 @@ const AllTasks = () => {
   };
 
   useEffect(() => {
-    useGetLists();
+    useGetLists(user_owner);
   }, [listToCreate]);
 
   const handleSaveList = () => {
@@ -124,9 +127,15 @@ const AllTasks = () => {
         { id: prevState.length + 1, titleList: listTitle, qtd_tasks: 0 },
       ]);
 
-      setListToCreate({ listTitle: listTitle, qtd_tasks: 0 });
+      const newList = {
+        listTitle: listTitle,
+        qtd_tasks: 0,
+        user_owner: user.id,
+      };
 
-      useCreateList(listToCreate);
+      setListToCreate(newList);
+
+      useCreateList(newList);
 
       setIsAddingList(!isAddingList);
     }
@@ -163,11 +172,10 @@ const AllTasks = () => {
 
           <div className="wrap-board-tasks">
             <div className="board-tasks">
-              {arrListColumns.map((item) => (
+              {arrListColumns.map((item, index) => (
                 <ListColumn
                   listTitle={item.list_title}
-                  qtdTasks={item.qtd_tasks}
-                  key={item.list_id}
+                  key={index}
                   listId={item.list_id}
                 />
               ))}
@@ -181,7 +189,7 @@ const AllTasks = () => {
                   placeholder="Enter list title..."
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      handleSaveList;
+                      handleSaveList();
                     }
                   }}
                 />

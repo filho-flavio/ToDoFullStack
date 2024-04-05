@@ -6,30 +6,35 @@ import userImg from "../../assets/user.png";
 import { useEffect, useRef, useState } from "react";
 import { useCreateTask, useGetTasks } from "../../hooks/useHandleTasks";
 import { RiDraggable } from "react-icons/ri";
+import { useAuth } from "../../hooks/useAuth";
 
 interface Props {
   listTitle: string;
-  qtdTasks: number;
   listId: number;
 }
 
-const ListColumn: React.FC<Props> = ({ listTitle, qtdTasks, listId }) => {
+const ListColumn: React.FC<Props> = ({ listTitle, listId }) => {
   const [isOpenAddCard, setIsOpenAddCard] = useState<boolean>(false);
   const refText = useRef<HTMLInputElement>(null);
   const [arrTasks, setArrTasks] = useState([]);
+  const [totaltTasks, setTotalTasks] = useState(0);
   const [newTask, setNewtask] = useState({});
+  const { user } = useAuth();
 
   const parsedListId = String(listId);
+
+  const columnId = `list-${parsedListId}`;
 
   const handleOpenAddCard = () => {
     setIsOpenAddCard(!isOpenAddCard);
   };
 
-  const handleSaveCardTask = () => {
+  const handleSaveCardTask = (item) => {
     if (refText.current !== null && refText.current.value.trim() !== "") {
       const newCardToCreate = {
         textTask: refText.current.value,
         listId: parsedListId,
+        user_owner: user.id,
       };
 
       setNewtask(newCardToCreate);
@@ -45,46 +50,39 @@ const ListColumn: React.FC<Props> = ({ listTitle, qtdTasks, listId }) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const tasks = await useGetTasks({ listId: parsedListId });
+        const tasks = await useGetTasks({
+          listId: parsedListId,
+          user_owner: user.id,
+        });
         setArrTasks(tasks);
+        setTotalTasks(tasks.length);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
     };
+
     fetchTasks();
   }, [newTask]);
 
   return (
     <>
-      <div className="tasks-column" key={listId} id={parsedListId}>
+      <div className="tasks-column" key={listId} id={columnId}>
         <div className="title-wrap">
           <span className="title-content">
             <h3 className="title-tasks-columns ">{listTitle}</h3>
-            <p className="qtd-tasks">{qtdTasks}</p>
+            <p className="qtd-tasks">{totaltTasks}</p>
           </span>
           <RiDraggable className="menu-column grab" />
         </div>
 
         <div className="tasks-list">
-          {/* <CardTask
-            textTask="Implement the way to add list columns and save in the DB"
-            userImg={userImg}
-          />
-          <CardTask
-            textTask="A card must have an id bound to their list"
-            userImg={userImg}
-          />
-          <CardTask
-            textTask="Should I get the name from the list and check all the tasks corresponding to it one by one"
-            userImg={userImg}
-          /> */}
-
           {arrTasks.map((item, index) => (
             <CardTask
               textTask={item.text}
               userImg={userImg}
               key={index}
               listId={parsedListId}
+              taskId={index}
             />
           ))}
         </div>
@@ -102,7 +100,7 @@ const ListColumn: React.FC<Props> = ({ listTitle, qtdTasks, listId }) => {
             <div className="wrap-btns-save-close">
               <button
                 className="btn-save-card pointer"
-                onClick={handleSaveCardTask}
+                onClick={() => handleSaveCardTask(columnId)}
               >
                 Save
               </button>
