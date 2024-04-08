@@ -2,14 +2,12 @@ import { db } from "../db/connection.js";
 
 export const createTask = (req, res) => {
   try {
-    const { textTask, listId, user_owner } = req.body;
-
-    console.log(req.body);
+    const { textTask, listId, user_owner, position } = req.body;
 
     const query =
-      "INSERT INTO tasks (`text`,  `list_id`,  `user_owner`) VALUES(?)";
+      "INSERT INTO tasks (`text`,  `list_id`,  `user_owner`, `position`) VALUES(?)";
 
-    const values = [textTask, listId, user_owner];
+    const values = [textTask, listId, user_owner, position];
 
     const createdTask = db.query(query, [values]);
 
@@ -48,9 +46,6 @@ export const createList = (req, res) => {
   try {
     const { listTitle, qtd_tasks, user_owner } = req.body;
 
-    console.log(req.body);
-
-    // nao esta pegando o title list
     const query =
       "INSERT INTO tasks_list (`list_title`, `qtd_tasks`, `list_user_owner`) VALUES(?, ?, ?)";
 

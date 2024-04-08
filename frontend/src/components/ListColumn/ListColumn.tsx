@@ -7,10 +7,18 @@ import { useEffect, useRef, useState } from "react";
 import { useCreateTask, useGetTasks } from "../../hooks/useHandleTasks";
 import { RiDraggable } from "react-icons/ri";
 import { useAuth } from "../../hooks/useAuth";
+import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 
 interface Props {
   listTitle: string;
   listId: number;
+}
+
+interface Task {
+  textTask: string;
+  userImg: string;
+  listId: string;
+  taskId: number;
 }
 
 const ListColumn: React.FC<Props> = ({ listTitle, listId }) => {
@@ -20,10 +28,11 @@ const ListColumn: React.FC<Props> = ({ listTitle, listId }) => {
   const [totaltTasks, setTotalTasks] = useState(0);
   const [newTask, setNewtask] = useState({});
   const { user } = useAuth();
+  const { handleDragOver, onDrop } = useDragAndDrop();
 
   const parsedListId = String(listId);
 
-  const columnId = `list-${parsedListId}`;
+  const columnId = `listId-${parsedListId}`;
 
   const handleOpenAddCard = () => {
     setIsOpenAddCard(!isOpenAddCard);
@@ -35,6 +44,7 @@ const ListColumn: React.FC<Props> = ({ listTitle, listId }) => {
         textTask: refText.current.value,
         listId: parsedListId,
         user_owner: user.id,
+        position: arrTasks.length + 1,
       };
 
       setNewtask(newCardToCreate);
@@ -54,7 +64,11 @@ const ListColumn: React.FC<Props> = ({ listTitle, listId }) => {
           listId: parsedListId,
           user_owner: user.id,
         });
+
+        orderTasks(tasks);
+
         setArrTasks(tasks);
+
         setTotalTasks(tasks.length);
       } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -63,6 +77,11 @@ const ListColumn: React.FC<Props> = ({ listTitle, listId }) => {
 
     fetchTasks();
   }, [newTask]);
+
+  const orderTasks = (tasks: Task[]): Task[] => {
+    tasks.sort((a, b) => a.position - b.position);
+    return tasks;
+  };
 
   return (
     <>
@@ -75,14 +94,19 @@ const ListColumn: React.FC<Props> = ({ listTitle, listId }) => {
           <RiDraggable className="menu-column grab" />
         </div>
 
-        <div className="tasks-list">
+        <div
+          className="tasks-list"
+          onDragOver={handleDragOver}
+          onDrop={onDrop}
+          id={columnId}
+        >
           {arrTasks.map((item, index) => (
             <CardTask
               textTask={item.text}
               userImg={userImg}
               key={index}
               listId={parsedListId}
-              taskId={index}
+              taskId={item.id}
             />
           ))}
         </div>

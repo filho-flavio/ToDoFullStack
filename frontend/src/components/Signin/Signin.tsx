@@ -8,11 +8,11 @@ const Signin: React.FC = () => {
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
 
     if (validateForm()) {
-      const res = signIn(formData);
+      const res = await signIn(formData);      
 
       if (res) {
         navigate("/home");

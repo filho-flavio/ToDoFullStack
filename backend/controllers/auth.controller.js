@@ -49,25 +49,13 @@ export const singUp = async (req, res) => {
     console.log(user);
 
     // Consulta ao banco de dados para verificar se o usuário já existe
-    const userAlreadyExist = await new Promise((resolve, reject) => {
-      db.query(
-        "SELECT * FROM users WHERE username = ?",
-        [user.username],
-        (err, data) => {
-          if (err) {
-            reject(err); // Rejeita a Promise se houver um erro
-            return;
-          }
+    const [rows] = await db.promise().query(
+      "SELECT * FROM users WHERE username = ?",
+      [user.username]
+    );
 
-          resolve(data.length > 0); // Resolve a Promise com true se o usuário existir, caso contrário, false
-        }
-      );
-    });
-
-    console.log(userAlreadyExist);
-
-    if (userAlreadyExist) {
-      return res.status(400).json({ message: "User already exists." });
+    if (rows.length > 0) {
+      return res.status(400).json({ error: "User already exists." });
     }
 
     const query =
@@ -82,16 +70,25 @@ export const singUp = async (req, res) => {
 
     const values = [user.fullName, user.username, user.password, backgroundColor];
 
-    const userSaved = db.query(query, [values]);
+    const [result] = await db.promise().query(query, [values]);
 
-    if (userSaved) {
-      return res.status(201).json({ message: "User created successfully!" });
+    if (result && result.insertId) {
+      return res.status(201).json({
+        id: result.insertId,
+        username: user.username,
+        fullName: user.fullName,
+        userProfilePic: profilePic,
+        backgroundColor: backgroundColor,
+      });
+    } else {
+      return res.status(500).json({ error: "Failed to save user." });
     }
   } catch (err) {
     console.log(`Error in signup: ${err}`);
     res.status(500).send("Internal server error");
   }
 };
+
 
 export const signOut = (req, res) => {
   try {

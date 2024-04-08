@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 import axios from "axios";
 
 export const AuthContext = createContext({});
@@ -36,15 +36,22 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       setUser(response.data);
       localStorage.setItem("todo-user", JSON.stringify(response.data));
       localStorage.setItem("todo-sidebar", ".home");
+      return true;
     } catch (error) {
-      alert("Usuario não encontrado!");
+      alert("Usuário ou senha encorretos!");
+      return false;
     }
   };
 
   const signUp = async (userObj: UserSignUp) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/signup", userObj);
-      alert(response.data.message)
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        userObj
+      );
+      setUser(response.data);
+      localStorage.setItem("todo-user", JSON.stringify(response.data));
+      localStorage.setItem("todo-sidebar", ".home");
       return response.data;
     } catch (error) {
       return alert(`Error in signup: ${error}`);
@@ -56,6 +63,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       const response = axios.post("http://localhost:3000/api/auth/signout");
 
       setUser(null);
+      localStorage.setItem("todo-sidebar", ".home");
       localStorage.removeItem("todo-user");
       return response;
     } catch (error) {
@@ -71,3 +79,4 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 };
 
 export default AuthProvider;
+//#taskId-38-listId-22
