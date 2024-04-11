@@ -5,7 +5,7 @@
 The purpose of this project was to apply the knowledge acquired throughout my journey as a FullStack developer, started in February 2022.
 Develop a task list application (todo list) comprehensive, which included advanced features. In addition to establish effective communication between the frontend and the backend to ensure complete system integration.
 
-![todo-gif](https://github.com/filho-flavio/ToDoFullStack/assets/113551879/b289dbff-43b0-4e4c-872a-5aeb98318d61)
+[todo-draggable](https://github.com/filho-flavio/ToDoFullStack/assets/113551879/fe33bb62-2205-4076-aa28-5999137f9210)
 
 ## :rocket: Tecnologias
 
