@@ -2,8 +2,8 @@
 
 ![todo-draggable](https://github.com/filho-flavio/ToDoFullStack/assets/113551879/44edde66-e594-49ef-a48c-3c3d159d03b7)
 
-The purpose of this project was to apply the knowledge acquired throughout my journey as a FullStack developer, started in February 2022.
-Develop a task list application (todo list) comprehensive, which included advanced features. In addition to establish effective communication between the frontend and the backend to ensure complete system integration.
+O objetivo deste projeto foi aplicar os conhecimentos adquiridos ao longo da minha jornada como desenvolvedor FullStack, iniciada em fevereiro de 2022.
+Desenvolvi um aplicativo de lista de tarefas (lista de tarefas) abrangente, que incluísse recursos avançados. Além de estabelecer uma comunicação eficaz entre o frontend e o backend para garantir a integração completa do sistema.
 
 [todo-draggable](https://github.com/filho-flavio/ToDoFullStack/assets/113551879/fe33bb62-2205-4076-aa28-5999137f9210)
 
