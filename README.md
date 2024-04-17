@@ -23,4 +23,72 @@ Develop a task list application (todo list) comprehensive, which included advanc
 
 Nesse fluxo é apresentado as etapas de execução e a comunicação entre os sistemas.
 
-Existem 3 sistemas o `Frontend`, a `API`
+Existem 2 sistemas o `Frontend` e o `Backend/ API`.
+
+![ToDo Draggable](https://github.com/filho-flavio/ToDoFullStack/assets/113551879/2f7a49a8-00d2-4a91-b378-1cf187bfbd84)
+
+
+  ## MER - Modelo Entidade Relacionamento
+  Modelo conceitual usado para representar as relações entre entidades em um banco de dados.
+  
+  ![ToDo Draggable](https://github.com/filho-flavio/ToDoFullStack/assets/113551879/9c3b6c0c-9bdc-4e9e-b637-6ab6e0eb3145)
+
+<details>
+  <summary>Criando Banco de Dados</summary>
+  
+  ## Criando Banco de Dados
+
+  ```
+    create database todo;
+  ```
+
+  ### Criando tabelas do banco
+  São três tabelas.
+  Tabela tasks:
+   ```
+    CREATE TABLE tasks (
+      id INT NOT NULL AUTO_INCREMENT,
+      text TEXT,
+      data_abertura DATETIME,
+      schedule DATETIME,
+      user_owner INT,
+      assigned_to INT,
+      list_id INT NOT NULL,
+      position INT,
+      PRIMARY KEY (id),
+      INDEX fk_user_owner (user_owner),
+      INDEX fk_assigned_to (assigned_to),
+      CONSTRAINT fk_user_owner FOREIGN KEY (user_owner) REFERENCES users (id),
+      CONSTRAINT fk_assigned_to FOREIGN KEY (assigned_to) REFERENCES users (id),
+      CONSTRAINT fk_list_id FOREIGN KEY (list_id) REFERENCES tasks_list (list_id)
+);
+  ```
+
+  Tabela tasks_list:
+  ```
+    CREATE TABLE tasks_list (
+      list_id INT NOT NULL AUTO_INCREMENT,
+      list_title VARCHAR(100) NOT NULL,
+      qtd_tasks INT,
+      list_user_owner INT,
+      PRIMARY KEY (list_id),
+      INDEX fk_list_user_owner (list_user_owner),
+      CONSTRAINT fk_list_user_owner FOREIGN KEY (list_user_owner) REFERENCES users (id)
+);
+  ```
+
+Tabela users:
+ ```
+  CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    fullName VARCHAR(255),
+    username VARCHAR(255),
+    password VARCHAR(255),
+    gender VARCHAR(255),
+    profilePic VARCHAR(255),
+    backgroundColor VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+ ```
+</details>
