@@ -13,6 +13,7 @@ Desenvolvi um aplicativo de lista de tarefas (lista de tarefas) abrangente, que 
 
 - [x] [Node.js](https://nodejs.org)
 - [x] [Express.js](https://expressjs.com/pt-br/)
+- [x] [Cors](https://www.npmjs.com/package/cors)
 - [x] [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 - [x] [TypeScript](https://www.typescriptlang.org)
 - [x] [React.js](https://react.dev/)
